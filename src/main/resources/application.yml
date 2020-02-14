@@ -1,0 +1,33 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/weixin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 123456
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 300
+    password: 123456
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+    prefix: classpath:/templates/
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+
+wx:
+  token: weixinmihugui3630
+  encodingAESKey: wZ9tdtoG57y69uvUxp5WDBb5xsTBHA9sh3cDac9pHqP
+  appid: wx98a3034d018eed3f
+  appSecret: 1454438df410dfccee2d567188d4afd5
+  url:
+    - api.weixin.qq.com/cgi-bin
+    - api2.weixin.qq.com/cgi-bin

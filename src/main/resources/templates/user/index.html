@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/layui.css" >
+    <link rel="stylesheet" href="/css/admin.css" >
+</head>
+<body layadmin-themealias="default" style>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <form class="layui-form" lay-filter="form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userName" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">手机</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="phone" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">邮箱</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block">
+                            <select name="isUsed">
+                                <option value=""></option>
+                                <option value="0">启用</option>
+                                <option value="1">禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-useradmin" type="button" data-type="reload">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-table-box">
+                <table class="layui-hide" id="user"></table>
+            </div>
+            <div class="layui-table-page">
+                <div id="page"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="layui.js"></script>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">按钮1</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">按钮2</a>
+</script>
+<script th:inline="none">
+    layui.use(['table','form'], function(){
+        var table = layui.table
+        ,form = layui.form;
+
+        //表格处理
+        table.render({
+            elem: '#user'
+            ,url:'/user/list/'
+            ,method: 'post'
+            ,id: 'user'
+            ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 1 //只显示 1 个连续页码
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+
+            }
+            ,cols: [[
+                {type:'checkbox'}
+                ,{field: 'id', title: 'ID', sort: true, hide: true}
+                ,{field: 'userName', title: '用户名'}
+                ,{field: 'phone', title: '手机', sort: true}
+                ,{field: 'email', title: '邮箱'}
+                ,{field: 'createDate', title: '创建时间', sort: true}
+                ,{fixed: 'right', width:160, title: '操作', align: 'center', toolbar: '#bar',unresize: true}
+            ]]
+            ,response: {
+                statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+            }
+            ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": res.retcode, //解析接口状态
+                    "msg": res.retmsg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.list //解析数据列表
+                };
+            }
+        });
+
+        //表格 条件重载
+        var $ = layui.$, active = {
+            reload: function () {
+
+                var data = form.val('form');
+
+                table.reload('user',{
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: data
+                })
+            }
+        };
+
+        $('.layui-btn').on('click',function () {
+            var type = $(this).data('type');
+            active[type]? active[type].call(this):'';
+
+        })
+
+    });
+</script>
+</body>
+</html>

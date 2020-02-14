@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mhg.weixin.dao.base.UserDOMapper">
+  <resultMap id="BaseResultMap" type="com.mhg.weixin.bean.base.UserDO">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="is_used" jdbcType="VARCHAR" property="isUsed" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <resultMap id="DtoResultMap" type="com.mhg.weixin.bean.base.dto.UserDTO" extends="BaseResultMap">
+    <collection property="roles" column="id" ofType="com.mhg.weixin.bean.base.dto.RoleDTO"
+                select="com.mhg.weixin.dao.base.RoleDOMapper.selectAllByUserID"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_name, password, phone, email, create_date, is_used, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_user
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllByUserName" resultMap="DtoResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_user
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_user
+    <where>
+      <if test="userName != null and userName != '' ">
+        user_name like concat('%',#{userName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="phone != null and phone != ''">
+        and phone like concat('%',#{phone,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="email != null and email != ''">
+        and email like concat('%',#{email,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="isUsed != null and isUsed != ''">
+        and is_used = #{isUsed,jdbcType=VARCHAR}
+      </if>
+      <if test="delFlag != null and delFlag != ''">
+        and del_flag = #{delFlag,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from base_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mhg.weixin.bean.base.UserDO">
+    insert into base_user (id, user_name, password, 
+      phone, email, create_date, 
+      is_used, del_flag
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{isUsed,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.mhg.weixin.bean.base.UserDO">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select UUID()
+    </selectKey>
+    insert into base_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        id,
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="isUsed != null">
+        is_used,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isUsed != null">
+        #{isUsed,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mhg.weixin.bean.base.UserDO">
+    update base_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isUsed != null">
+        is_used = #{isUsed,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mhg.weixin.bean.base.UserDO">
+    update base_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      is_used = #{isUsed,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

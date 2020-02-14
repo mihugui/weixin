@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mhg.weixin.dao.base.RoleDOMapper">
+  <resultMap id="BaseResultMap" type="com.mhg.weixin.bean.base.RoleDO">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="is_used" jdbcType="VARCHAR" property="isUsed" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <resultMap id="DtoResultMap" type="com.mhg.weixin.bean.base.dto.RoleDTO" extends="BaseResultMap">
+    <collection property="permissions" column="id" ofType="com.mhg.weixin.bean.base.PermissionDO"
+                select="com.mhg.weixin.dao.base.PermissionDOMapper.selectByRoleID" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, code, type, description, is_used, create_user, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_role
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllByUserID" resultMap="DtoResultMap">
+    select
+        a.*
+    from base_role a
+    inner join base_user_role b on a.id = b.role_id
+    where b.user_id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_role
+    where code = #{code,jdbcType=VARCHAR}
+    <if test="id != null">
+      and id != #{id,jdbcType=VARCHAR},
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from base_role
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mhg.weixin.bean.base.RoleDO">
+    insert into base_role (id, name, code, 
+      type, description, is_used, 
+      create_user, create_date)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{isUsed,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mhg.weixin.bean.base.RoleDO">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select UUID()
+    </selectKey>
+    insert into base_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        id,
+      <if test="name != null">
+        name,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="isUsed != null">
+        is_used,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null">
+        #{isUsed,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mhg.weixin.bean.base.RoleDO">
+    update base_role
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null">
+        is_used = #{isUsed,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mhg.weixin.bean.base.RoleDO">
+    update base_role
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      is_used = #{isUsed,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

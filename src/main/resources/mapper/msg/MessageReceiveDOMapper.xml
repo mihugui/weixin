@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mhg.weixin.dao.msg.MessageReceiveDOMapper" >
+  <resultMap id="BaseResultMap" type="com.mhg.weixin.bean.msg.MessageReceiveDO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="to_user_name" property="toUserName" jdbcType="VARCHAR" />
+    <result column="from_user_name" property="fromUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="msg_type" property="msgType" jdbcType="VARCHAR" />
+    <result column="msg_id" property="msgId" jdbcType="INTEGER" />
+    <result column="msg_content" property="msgContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, to_user_name, from_user_name, create_time, msg_type, msg_id, msg_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from message_receive
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from message_receive
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mhg.weixin.bean.msg.MessageReceiveDO" >
+    insert into message_receive (id, to_user_name, from_user_name, 
+      create_time, msg_type, msg_id, 
+      msg_content)
+    values (#{id,jdbcType=VARCHAR}, #{toUserName,jdbcType=VARCHAR}, #{fromUserName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{msgType,jdbcType=VARCHAR}, #{msgId,jdbcType=INTEGER}, 
+      #{msgContent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.mhg.weixin.bean.msg.MessageReceiveDO" >
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select UUID()
+    </selectKey>
+    insert into message_receive
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="toUserName != null" >
+        to_user_name,
+      </if>
+      <if test="fromUserName != null" >
+        from_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="msgType != null" >
+        msg_type,
+      </if>
+      <if test="msgId != null" >
+        msg_id,
+      </if>
+      <if test="msgContent != null" >
+        msg_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserName != null" >
+        #{toUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserName != null" >
+        #{fromUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="msgType != null" >
+        #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="msgId != null" >
+        #{msgId,jdbcType=INTEGER},
+      </if>
+      <if test="msgContent != null" >
+        #{msgContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mhg.weixin.bean.msg.MessageReceiveDO" >
+    update message_receive
+    <set >
+      <if test="toUserName != null" >
+        to_user_name = #{toUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserName != null" >
+        from_user_name = #{fromUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="msgType != null" >
+        msg_type = #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="msgId != null" >
+        msg_id = #{msgId,jdbcType=INTEGER},
+      </if>
+      <if test="msgContent != null" >
+        msg_content = #{msgContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mhg.weixin.bean.msg.MessageReceiveDO" >
+    update message_receive
+    set to_user_name = #{toUserName,jdbcType=VARCHAR},
+      from_user_name = #{fromUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      msg_type = #{msgType,jdbcType=VARCHAR},
+      msg_id = #{msgId,jdbcType=INTEGER},
+      msg_content = #{msgContent,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

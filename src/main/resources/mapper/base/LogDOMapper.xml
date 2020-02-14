@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mhg.weixin.dao.base.LogDOMapper">
+  <resultMap id="BaseResultMap" type="com.mhg.weixin.bean.base.LogDO">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="operate_content" jdbcType="VARCHAR" property="operateContent" />
+    <result column="operate_type" jdbcType="VARCHAR" property="operateType" />
+    <result column="operate_ip" jdbcType="VARCHAR" property="operateIp" />
+    <result column="operate_browser" jdbcType="VARCHAR" property="operateBrowser" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, operator, operate_content, operate_type, operate_ip, operate_browser, operate_time, 
+    type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from base_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mhg.weixin.bean.base.LogDO">
+    insert into base_log (id, operator, operate_content, 
+      operate_type, operate_ip, operate_browser, 
+      operate_time, type)
+    values (#{id,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operateContent,jdbcType=VARCHAR}, 
+      #{operateType,jdbcType=VARCHAR}, #{operateIp,jdbcType=VARCHAR}, #{operateBrowser,jdbcType=VARCHAR}, 
+      #{operateTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mhg.weixin.bean.base.LogDO">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select UUID()
+    </selectKey>
+    insert into base_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        id,
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="operateContent != null">
+        operate_content,
+      </if>
+      <if test="operateType != null">
+        operate_type,
+      </if>
+      <if test="operateIp != null">
+        operate_ip,
+      </if>
+      <if test="operateBrowser != null">
+        operate_browser,
+      </if>
+      <if test="operateTime != null">
+        operate_time,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateContent != null">
+        #{operateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null">
+        #{operateType,jdbcType=VARCHAR},
+      </if>
+      <if test="operateIp != null">
+        #{operateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operateBrowser != null">
+        #{operateBrowser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null">
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mhg.weixin.bean.base.LogDO">
+    update base_log
+    <set>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateContent != null">
+        operate_content = #{operateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null">
+        operate_type = #{operateType,jdbcType=VARCHAR},
+      </if>
+      <if test="operateIp != null">
+        operate_ip = #{operateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operateBrowser != null">
+        operate_browser = #{operateBrowser,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null">
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mhg.weixin.bean.base.LogDO">
+    update base_log
+    set operator = #{operator,jdbcType=VARCHAR},
+      operate_content = #{operateContent,jdbcType=VARCHAR},
+      operate_type = #{operateType,jdbcType=VARCHAR},
+      operate_ip = #{operateIp,jdbcType=VARCHAR},
+      operate_browser = #{operateBrowser,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

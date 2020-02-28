@@ -56,7 +56,16 @@
         base: '../' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'user']);
+    }).use(['index', 'user','layer'],function () {
+
+        var layer = layui.layer;
+
+        layer.msg('[[${msg}]]',{offset:'mt'});
+
+    });
+
+
+
 </script>
 <style id="LAY_layadmin_theme">
     .layui-side-menu,.layadmin-pagetabs .layui-tab-title li:after,.layadmin-pagetabs .layui-tab-title li.layui-this:after,.layui-layer-admin .layui-layer-title,.layadmin-side-shrink .layui-side-menu .layui-nav>.layui-nav-item>.layui-nav-child{background-color:#20222A !important;}

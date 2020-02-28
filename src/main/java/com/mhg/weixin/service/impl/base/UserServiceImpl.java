@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mhg.weixin.bean.base.UserDO;
 import com.mhg.weixin.bean.base.dto.UserDTO;
+import com.mhg.weixin.bean.base.vo.UserVO;
 import com.mhg.weixin.bean.enums.DelFlagEnum;
 import com.mhg.weixin.bean.enums.IsUsedEnum;
 import com.mhg.weixin.dao.base.UserDOMapper;
@@ -68,5 +69,12 @@ public class UserServiceImpl implements UserService {
         List<UserDO> list = userDoMapper.list(userDO);
 
         return new PageInfo<UserDO>(list);
+    }
+
+    @Override
+    public void changePassword(UserVO userVO) {
+
+
+
     }
 }

@@ -35,6 +35,8 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String index(Model model) {
+        model.addAttribute("msg","欢迎");
+
         return "login/index";
     }
 

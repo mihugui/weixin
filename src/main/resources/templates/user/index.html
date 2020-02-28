@@ -61,8 +61,8 @@
 </div>
 <script src="layui.js"></script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">按钮1</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">按钮2</a>
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="edit">编辑</a>
 </script>
 <script th:inline="none">
     layui.use(['table','form'], function(){
@@ -123,7 +123,6 @@
         $('.layui-btn').on('click',function () {
             var type = $(this).data('type');
             active[type]? active[type].call(this):'';
-
         })
 
     });

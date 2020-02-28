@@ -17,6 +17,8 @@ public class UserVO extends PageVO {
 
     private String password;
 
+    private String newPassword;
+
     private String phone;
 
     private String email;

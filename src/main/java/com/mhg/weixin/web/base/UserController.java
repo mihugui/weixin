@@ -8,6 +8,8 @@ import com.mhg.weixin.service.base.RoleService;
 import com.mhg.weixin.service.base.UserService;
 import com.mhg.weixin.utils.AjaxResult;
 import com.mhg.weixin.utils.DozerUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,5 +71,17 @@ public class UserController {
         return ajaxResult;
 
     }
+
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult changePassword(UserVO userVO) {
+
+        AjaxResult ajaxResult = new AjaxResult();
+        userService.changePassword(userVO);
+        return ajaxResult;
+
+    }
+
 
 }

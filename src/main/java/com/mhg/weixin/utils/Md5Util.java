@@ -16,9 +16,4 @@ public class Md5Util {
         SimpleHash simpleHash = new SimpleHash("md5", pwd, ByteSource.Util.bytes(user),2);
         return simpleHash.toHex();
     }
-
-    public static void main(String[] args) {
-        System.out.println(md5ShiroPwd("123456","admin"));
-    }
-
 }

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mhg.weixin.bean.base.UserDO;
 import com.mhg.weixin.bean.base.dto.UserDTO;
+import com.mhg.weixin.bean.base.vo.UserVO;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface UserService {
     void add(UserDO userDO);
 
     PageInfo<UserDO> listByPage(UserDO userDO, Integer pageSize, Integer pageNum);
+
+    void changePassword(UserVO userVO);
 }
